@@ -1,0 +1,37 @@
+@startuml mongo_api
+title Diagrama de Despliegue - IGGPSRT
+
+
+node "Sensor GNSS" as gnss {
+  artifact "GNSS Antena"
+}
+
+node "SRVPROGPSRT" {
+    component "Cliente ERYO"
+    component "IGGPSRT"
+}
+
+node "SRVBBDD" {
+    database "InfluxDB"
+    database "MongoDB"
+    component "MongoAPI"
+}
+
+node "SRVGRAF" {
+    component "Grafana Dashboard"
+    component "Grafana Influx Plugin"
+}
+
+gnss --> "Cliente ERYO" : Señales GNSS
+"Cliente ERYO" --> IGGPSRT : Ejecuta listeners
+
+IGGPSRT --> InfluxDB : Inserta series de tiempo
+IGGPSRT --> MongoDB : Inserta datos estructurados
+
+MongoDB --> MongoAPI : Exposición REST
+"Grafana Dashboard" --> MongoAPI : Consulta JSON
+
+"Grafana Influx Plugin" --> InfluxDB : Query tiempo real
+"Grafana Dashboard" --> "Grafana Influx Plugin" : Métricas GPS
+
+@enduml
