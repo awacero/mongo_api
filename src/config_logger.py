@@ -1,6 +1,6 @@
 """Utilities for configuring application logging."""
 
-import logging
+import logging, logging.config
 import os
 from pathlib import Path
 
