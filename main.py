@@ -1,4 +1,8 @@
-from src import config_loader, db_connection, api_service
+from src import config_loader, db_connection, api_service, config_logger
+
+import logging, logging.config
+
+
 
 def main():
     try:
@@ -16,6 +20,9 @@ def main():
         print(f"Application failed to start: {exc}")
 
 if __name__ == "__main__":
+
+    logger = config_logger.configure_logging()
+    logger.info("Logger configurated")
     main()
 
 
