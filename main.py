@@ -1,8 +1,7 @@
-import logging
-from src import config_loader, db_connection, api_service
+from src import config_loader, db_connection, api_service, config_logger
+import logging, logging.config
 
 
-logging.basicConfig(level=logging.INFO)
 
 def main():
     try:
@@ -22,6 +21,9 @@ def main():
         logging.exception("Application failed to start: %s", exc)
 
 if __name__ == "__main__":
+
+    logger = config_logger.configure_logging()
+    logger.info("Logger configurated")
     main()
 
 
@@ -29,4 +31,3 @@ if __name__ == "__main__":
 ###TODO
 # add logs
 # add trys
-# add documentation 
