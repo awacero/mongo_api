@@ -17,6 +17,7 @@ def main():
         mongo_cfg = config_loader.load_json_config(config["mongo"]["config_file"])[
             config["mongo"]["db_id"]
         ]
+        print(mongo_cfg)
         collection = db_connection.get_mongo_client(mongo_cfg)
         app = api_service.create_app(collection)
         logging.info("Initialization complete, starting server")

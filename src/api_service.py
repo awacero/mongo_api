@@ -28,14 +28,15 @@ def create_app(mongo_collection):
         """Return the latest sensor data records as JSON."""
         logger.debug("Handling /api/sensor-data request")
         try:
-            cursor = mongo_collection.find().sort("timestamp", -1).limit(100)
+            cursor = mongo_collection.find().sort("gps_datetime", -1).limit(100)
             result = []
             for doc in cursor:
+                position = doc.get("position", {})
                 result.append(
                     {
-                        "timestamp": doc.get("timestamp"),
-                        "temperature": doc.get("temperature"),
-                        "humidity": doc.get("humidity"),
+                        "gps_datetime": doc.get("gps_datetime"),
+                        "satellite_number": doc.get("satellite_number"),
+                        "position_x": position.get("x"),
                     }
                 )
             logger.debug("Returning %d sensor records", len(result))
